@@ -1,0 +1,218 @@
+# js sleep
+
+snippet sleep 
+async function sleep(time) {
+    await new Promise((resolve) => setTimeout(resolve, time));
+}
+endsnippet
+
+
+
+
+
+# websocket
+snippet wsclient 
+const WebSocket = require('ws')
+
+const serverWss = "wss://www.gasnow.org/ws/gasprice"
+
+async function main(){
+    let ws = new WebSocket(serverWss);
+    ws.on("open", (data)=>{
+        console.log("connection open ... data: ", data);
+    });
+
+    ws.on("message", (msg)=>{
+        console.log("msg: ", msg)
+        let obj = JSON.parse(msg)
+        console.log("obj.type: ", obj.type)
+        console.log("obj.data:", obj)
+    });
+
+    ws.on("close", (data) => {
+        console.log("connection close ... data: ", data)
+    })
+}
+
+main();
+
+endsnippet
+
+snippet wsexample 
+const WebSocket = require('ws')
+
+const serverWss = "ws://127.0.0.1:8080"
+
+async function wsClient(){
+    let ws = new WebSocket(serverWss);
+    ws.on("open", (data)=>{
+        console.log("connection open ... data: ", data);
+        sending(ws, "this is from client");
+    });
+    ws.on("message", (msg)=>{
+        console.log("client receive: ", msg)
+    });
+    ws.on("close", (data) => {
+        console.log("connection close ... data: ", data)
+    })
+}
+
+async function wsServer(){
+    let wss = new WebSocket.Server({ port: 8080 });
+    wss.on('connection', function connection(ws) {
+        sending(ws, "this is from server");
+        ws.on('message', function incoming(message) {
+            console.log('server received: %s', message);
+
+        });
+        ws.send("this is a test")
+        ws.send('something');
+    });
+}
+
+async function sending(ws, msg){
+    while(true){
+        ws.send(msg)
+        await sleep(100);
+    }
+}
+
+async function sleep(ms){
+    return new Promise((resolve)=>{
+        setTimeout(resolve, ms);
+    });
+}
+
+async function main(){
+    wsServer();
+    wsClient();
+}
+
+main();
+
+endsnippet
+
+
+
+snippet constweb3
+const Web3 = require('web3');
+let rpc = ""
+web3 = new Web3(rpc);
+endsnippet
+
+
+snippet asyncxxx
+async function $1(){
+    $2
+}
+endsnippet
+
+
+snippet contractbase
+const BigNumber = require('bignumber.js');
+const Web3 = require('web3');
+
+class xxx $1 {
+    constructor(rpc, contractAddress){
+        this.abi = [];
+        this.address = contractAddress;
+        this.web3 = new Web(new Web3.providers.HttpProvider(rpc));
+        this.signer = "";
+    }
+
+    async getOptions() {
+        let options = {
+            from    : this.signer,
+            gas     : 800000,
+            gasPrice: 1000000000
+        }
+        try {
+            let gasPrice = await this.web3.eth.getGasPrice();
+            if (gasPrice) {
+                options.gasPrice = gasPrice;
+            }
+
+            if(this.signer == ""){
+                console.log("signer is not set, please set it")
+                return null;
+            }
+
+            let nonce = await this.web3.eth.getTransactionCount(this.signer, "pending");
+            if (nonce) {
+                options.nonce = nonce;
+            }
+        } catch (e) {
+            console.log(e);
+        }
+        return options;
+    }
+
+    async getPastEvents(event, options = {}) {
+        return new Promise((resolve, reject) => {
+            this.contract.getPastEvents(event, options).then(resolve).catch(e => {resolve(false)})
+        });
+    }
+
+    async setKey(from, key){
+        this.signer = from;
+        this.web3.eth.accounts.wallet.add(key);
+    }
+
+    // methods
+    async xxx(){
+        return new Promise((resolve, reject) => {
+            return this.contract.methods.xx().call()
+                .then(resolve)
+                .catch(e => {
+                    console.log(e);
+                    resolve(null);
+                })
+        });
+    }
+
+    async xxx (){
+        if(this.signer == ""){
+            console.log("no signer, please set it");
+            return null;
+        }
+        let options = await this.getOptions();
+        return new Promise((resolve, reject) =>{
+            this.contract.methods.xx().send(options)
+                .then(resolve)
+                .catch(e => {
+                    console.log(e);
+                    resolve(null)
+                })
+        });
+    }
+}
+endsnippet
+
+
+
+snippet createtable
+\`CREATE TABLE xxx (
+        id int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'id',
+        PRIMARY KEY (id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='xxx'\`
+endsnippet
+
+
+snippet loop
+async xxLoop(){
+    while(true){
+        console.log(new Date())
+        try {
+
+
+
+            await sleep(1000)
+        } catch (e) {
+            console.log(e)
+            await sleep(1000)
+            continue
+        }
+    }
+
+}
+endsnippet
