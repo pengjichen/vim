@@ -154,65 +154,106 @@ Plugin 'VundleVim/Vundle.vim'
 
 " 玩具插件
 "----------------------------------------------------------------
+"
 " 黑客帝国屏幕字符流效果
 Plugin 'matrix.vim--Yang'
+
+
 
 " Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
 " 可以快速对齐的插件
 "Plugin 'junegunn/vim-easy-align'
 
+
+
 " 用来提供一个导航目录的侧边栏
 Plugin 'scrooloose/nerdtree'
+
+
 
 " 可以使 nerdtree Tab 标签的名称更友好些
 "Plugin 'jistr/vim-nerdtree-tabs'
 
+
+
 " 可以在导航目录中看到 git 版本信息
 Plugin 'Xuyuanp/nerdtree-git-plugin'
+
+
 
 " 查看当前代码文件中的变量和函数列表的插件，
 " 可以切换和跳转到代码中对应的变量和函数的位置
 " 大纲式导航, Go 需要 https://github.com/jstemmer/gotags 支持
 Plugin 'majutsushi/tagbar'
 
+
+
 " 自动补全括号的插件，包括小括号，中括号，以及花括号
 Plugin 'jiangmiao/auto-pairs'
 
+
+
 Plugin 'nathanaelkane/vim-indent-guides'
+
+
 
 " Vim状态栏插件，包括显示行号，列号，文件类型，文件名，以及Git状态
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'bling/vim-bufferline'
 
+
+
 " 有道词典在线翻译
 "Plugin 'ianva/vim-youdao-translater'
 
+
+
 " 代码自动完成，安装完插件还需要额外配置才可以使用
-Plugin 'luycm-core/YouCompleteMe'
+" 需要额外安装步骤：
+" mac: brew install cmake node; cd YouCompleteMe; ./install.py --all
+" ubuntu: sudo apt install cmake; curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
+"         apt-get install -y nodejs; ./install.py --all
+"
+Plugin 'ycm-core/YouCompleteMe'
+
+
 
 " 可以在文档中显示 git 信息
 Plugin 'airblade/vim-gitgutter'
+
 
 
 " 下面两个插件要配合使用，可以自动生成代码块
 "Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 
+
+
 " 配色方案
 " colorscheme neodark
 "Plugin 'KeitaNakamura/neodark.vim'
 
+
+
 " colorscheme monokai
 Plugin 'crusoexia/vim-monokai'
+
+
 
 " colorscheme github
 Plugin 'acarapetis/vim-colors-github'
 
+
+
 " colorscheme one
 Plugin 'rakr/vim-one'
 
+
+
 Plugin 'altercation/vim-colors-solarized'
+
+
 
 " ack全局搜索插件 需要ag工具 安装如下
 " brew install the_silver_searcher
@@ -228,14 +269,20 @@ Plugin 'dgryski/vim-godef'
 " go 中代码提示
 Plugin 'nsf/gocode', {'rtp': 'vim/'}
 
+
+
 " markdown 插件
 Plugin 'iamcco/mathjax-support-for-mkdp'
 Plugin 'iamcco/markdown-preview.vim'
+
+
 
 " c/c++插件
 "----------------------------------------------------------------
 "Plugin 'a.vim'                              " 头文件和源文件切换
 "Plugin 'octol/vim-cpp-enhanced-highlight'   " 自定义类型 变量的语法高亮
+
+
 
 " solidity 插件
 Plugin 'tomlion/vim-solidity'
@@ -245,6 +292,8 @@ Plugin 'vim-syntastic/syntastic'
 
 " 语法检查
 Plugin 'sohkai/syntastic-local-solhint'
+
+
 
 " EasyDebugger 插件 调试js go python
 Plugin 'jayli/vim-easydebugger'
