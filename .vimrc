@@ -1,68 +1,153 @@
 "==============================================================================
-" vim 内置配置 
+" vim 内置配置
 "==============================================================================
-" 设置 vimrc 修改保存后立刻生效，不用在重新打开
-" 建议配置完成后将这个关闭，否则配置多了之后会很卡
+" 设置 vimrc 修改保存后立刻生效，不用在重新打开, 建议配置完成后将这个关闭，否则配置多了之后会很卡
+" 或者配置好后执行source ~/.vimrc, 也可以使新配置即时生效
 " autocmd BufWritePost $MYVIMRC source $MYVIMRC
 
-"set nocompatible                                               " 关闭兼容模式
 
-set backspace=indent,eol,start                                  " 启用backspace
-set nu                                                          " 设置行号
-set cursorline                                                  "突出显示当前行
-" set cursorcolumn " 突出显示当前列
-set showmatch                                                   " 显示括号匹配
+" 关闭兼容模式
 
-" tab 缩进
-set tabstop=4                                                   " 设置Tab长度为4空格 或者 set ts=4
-set shiftwidth=4                                                " 设置自动缩进长度为4空格
-set expandtab                                                   " 将tab转成space
-set autoindent                                                  " 继承前一行的缩进方式，适用于多行注释
+set nocompatible
 
-set list " 显示特殊符号
+
+" 启用backspace
+
+set backspace=indent,eol,start
+
+
+" 设置行号
+
+set nu
+
+
+"突出显示当前行
+
+set cursorline
+
+
+" 突出显示当前列
+
+" set cursorcolumn
+
+
+" 显示括号匹配
+
+set showmatch
+
+
+" tab 缩进, 设置Tab长度为4空格 或者 set ts=4
+set tabstop=4
+
+
+" 设置自动缩进长度为4空格
+
+"set shiftwidth=4
+
+
+" 将tab转成space
+set expandtab
+
+
+" 继承前一行的缩进方式，适用于多行注释
+
+set autoindent
+
+
+" 显示特殊符号
+
+set list
 set listchars=tab:›\ ,trail:•,extends:>,precedes:<,nbsp:.
 
 
 " 关闭vim提示音和闪烁提示
 set vb t_vb=
 
+
 " 定义快捷键的前缀，即<Leader>
 let mapleader=";"
 
+
 " ==== 系统剪切板复制粘贴 ====
 " v 模式下复制内容到系统剪切板
+
 vmap <Leader>c "+yy
+
+
 " n 模式下复制一行到系统剪切板
+
 nmap <Leader>c "+yy
+
+
 " n 模式下粘贴系统剪切板的内容
+
 nmap <Leader>v "+p
 
 
-
-
 " 开启实时搜索
+
 set incsearch
+
+
 " 搜索时大小写不敏感
+
 set ignorecase
+
+
+" 开启文件类型侦测
+
 syntax enable
-syntax on                                                       " 开启文件类型侦测
-filetype plugin indent on                                        " 启用自动补全
+
+
+" 开启高亮
+
+syntax on
+
+
+" 启用自动补全
+
+filetype plugin indent on
+
 
 " 退出插入模式指定类型的文件自动保存
-au InsertLeave *.go,*.sh,*.php write
+
+au InsertLeave *.go,*.sh,*.php,*.js,*.sol,*.txt,*.md write
 
 
-set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936        " 文件编码格式
+" 文件编码格式
+
+set fileencodings=utf-8,ucs-bom,gb18030,gbk,gb2312,cp936
 set termencoding=utf-8
 set encoding=utf-8
-set wrap                                                        " 设置自动换行
-set foldmethod=indent                                           " 折叠
-set foldlevelstart=99                                           " 设置折叠级别 用于取消打开就折叠
 
-" set spell                                                     " 开启语法检查
-set nospell                                                     " 关闭语法检查
+
+" 设置自动换行
+
+set wrap
+
+
+" 开启折叠
+
+set foldmethod=indent
+
+
+" 设置折叠级别 用于取消打开就折叠
+
+set foldlevelstart=99
+
+
+" 开启语法检查
+
+" set spell
+
+
+" 关闭语法检查
+
+set nospell
+
 
 " 标签页操作快捷键
+
 nmap nex    :tabnext<CR>
 nmap pre    :tabprevious<CR>
 nmap new    :tabnew<CR>
@@ -72,6 +157,9 @@ nmap new    :tabnew<CR>
 "inoremap kl <ESC>:w<CR>
 "inoremap gs <ESC>:w<CR>
 "noremap gs :w<CR>
+
+" 保存快捷键
+
 map <leader>s :w<CR>
 inoremap <leader>s <ESC>:w<CR>
 
@@ -85,13 +173,12 @@ map <D>s :w!<CR>
 imap Ctrl-s <ESC>:w!<CR>i
 map Ctrl-s :w!<CR>
 
-
 " 保存 使用hj替换
 "inoremap hj <ESC>:w<CR>
 "noremap hj :w<CR>
 
 
-set fdm=syntax " 折叠方式, 用语法高亮来定义折叠
+" 折叠方式, 用语法高亮来定义折叠
 " manual          手工定义折叠
 " indent          更多的缩进表示更高级别的折叠
 " expr            用表达式来定义折叠
@@ -99,18 +186,27 @@ set fdm=syntax " 折叠方式, 用语法高亮来定义折叠
 " diff            对没有更改的文本进行折叠
 " marker          对文中的标志折叠
 
+set fdm=syntax
+
+
 " 保存快捷键
+
 nmap fs :w!<CR>
-"nmap <c-s> :w!<CR>                                             " control + s 被系统快捷键占用，无法在vim配置文件中使用
+
+" control + s 被系统快捷键占用，无法在vim配置文件中使用
+
+" nmap <c-s> :w!<CR>
 " vmap <C-S> <C-C>:w!<CR>
 " nmap <C-S> :w!<CR>i
 
 nmap ag     :Ack
 
 " 启用鼠标
+
 set mouse=a
 
 " 在当前文件中快速查找光标下的单词, 要了解详细信息，":help :lvimgrep"及":help :lgrep"
+
 nmap <leader>lv :lv /<c-r>=expand("<cword>")<cr>/ %<cr>:lw<cr>
 
 " 光标跨窗口移动 左移 右移 上移 下移
@@ -130,15 +226,23 @@ nmap qu     :cw<CR>
 
 nmap <Leader>r :!node %<CR>
 
+
 " for fun go
 "nmap gr     :!go run %<CR>
 
 nmap <Leader>g :!go run %<CR>
+
+
 " 设置默认保存目录
+
 " exec 'cd ' . fnameescape("$HOME/workspace")
 
 " ml对xml格式化 需要安装libxml2, 或者在终端使用命令xmllint –format xxx.xml进行格式化
+
 nmap ml :%!xmllint --format --encode UTF-8 -<cr>
+
+
+
 "==============================================================================
 " 插件配置 
 "==============================================================================
