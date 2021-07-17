@@ -358,7 +358,23 @@ Plugin 'kien/ctrlp.vim'
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 
-"Plugin 'wincent/command-t'
+" have a problem with it
+" command-t.vim could not load the C extension.
+"Please see INSTALLATION and TROUBLE-SHOOTING in the help.
+"Vim Ruby version: 3.0.2-p107
+"Expected version: 2.6.3-p62
+"For more information type:    :help command-t
+
+" 问题出现原因: vim依赖ruby和coommand-t依赖版本不一致
+" 解决办法: 依照doc安装步骤进行安装, 保持同一个版本的ruby
+" ruby -v 查看ruby版本, 如果和vim依赖不同, 则进行卸载, 并清理.zshrc中环境变量设置
+" brew install ruby
+" brew uninstall ruby@2.7
+" brew uninstall ruby@2.6
+" source ~/.bash_profile
+" cd ~/.vim/bundle/command-t/ruby/command-t/ext/command-t
+" ruby extconf.rb &&  make
+Plugin 'wincent/command-t'
 
 
 
