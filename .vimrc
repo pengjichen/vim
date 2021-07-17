@@ -6,11 +6,6 @@
 " autocmd BufWritePost $MYVIMRC source $MYVIMRC
 
 
-" 关闭兼容模式
-
-set nocompatible
-
-
 " 启用backspace
 
 set backspace=indent,eol,start
@@ -146,6 +141,21 @@ set foldlevelstart=99
 set nospell
 
 
+" buffer间切换
+
+" 打印buffer的列表
+
+nmap ls     :ls<CR>
+
+" buffe中下一个r文件
+
+nmap bn     :bn<CR>
+
+" buffe中上一个r文件
+
+nmap bp     :bp<CR>
+
+
 " 标签页操作快捷键
 
 nmap nex    :tabnext<CR>
@@ -199,7 +209,6 @@ nmap fs :w!<CR>
 " vmap <C-S> <C-C>:w!<CR>
 " nmap <C-S> :w!<CR>i
 
-nmap ag     :Ack
 
 " 启用鼠标
 
@@ -244,34 +253,121 @@ nmap ml :%!xmllint --format --encode UTF-8 -<cr>
 
 
 "==============================================================================
-" 插件配置 
+" 插件配置
 "==============================================================================
 
 " 插件开始的位置
 "call plug#begin('~/.vim/plugged')
-set nocompatible              " be iMproved, required
-filetype off                  " required
+
+
+" be iMproved, required
+
+set nocompatible
+
+" required
+filetype off
+
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
+
+" 基础插件
+
+
+" 插件管理工具
+
 Plugin 'VundleVim/Vundle.vim'
 
-" 玩具插件
-"----------------------------------------------------------------
-"
-" 黑客帝国屏幕字符流效果
-Plugin 'matrix.vim--Yang'
+
+" 启动界面插件
+
+Plugin 'mhinz/vim-startify'
+
+" Vim状态栏插件，包括显示行号，列号，文件类型，文件名，以及Git状态
+
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+Plugin 'bling/vim-bufferline'
+
+" airline 插件配置
+" 永远显示airlin状态栏
+
+set laststatus=2
+
+" 在windows中用xshell连接打开vim可以显示色彩
+
+set t_Co=256
+
+" 状态栏主题
+
+"let g:airline_theme='luna'
+
+" 启用bufferline
+let g:airline#extensions#bufferline#enabled = 1
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline#extensions#tabline#formatter = 'default'
+
+" 文件夹管理插件
+
+Plugin 'scrooloose/nerdtree'
+
+" NERDTree 插件配置
+" 打开和关闭NERDTree快捷键
+
+map <F10> :NERDTreeToggle<CR>
+nmap tr :NERDTreeToggle<cr>
+
+" 显示行号
+
+let NERDTreeShowLineNumbers=1
+
+" 打开文件时是否显示目录
+
+let NERDTreeAutoCenter=0
+
+" 是否显示隐藏文件
+
+let NERDTreeShowHidden=1
+
+" 设置宽度
+" let NERDTreeWinSize=31
+" 忽略一下文件的显示
+
+let NERDTreeIgnore=['\.pyc','\~$','\.swp']
+
+" 打开 vim 文件及显示书签列表
+
+let NERDTreeShowBookmarks=2
+
+" 在终端启动vim时，共享NERDTree
+
+let g:nerdtree_tabs_open_on_console_startup=1
+
+" 自动打开NERDTree
+" let NERDTreeQuitOnOpen=0
+" NERDTree 宽度
+" let NERDTreeWinSize=40
 
 
+" 文件查找 内容查找插件
+
+Plugin 'kien/ctrlp.vim'
+
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+
+"Plugin 'wincent/command-t'
+
+
+
+" 玩具插件 黑客帝国屏幕字符流效果
+"Plugin 'matrix.vim--Yang'
 
 " Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
 " 可以快速对齐的插件
 "Plugin 'junegunn/vim-easy-align'
-
-
-
-" 用来提供一个导航目录的侧边栏
-Plugin 'scrooloose/nerdtree'
 
 
 
@@ -283,208 +379,36 @@ Plugin 'scrooloose/nerdtree'
 " 可以在导航目录中看到 git 版本信息
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 
+" nerdtree-git-plugin 插件
+" let g:NERDTreeIndicatorMapCustom = {
+let g:NERDTreeGitStatusIndicatorMapCustom = {
+    \ "Modified"  : "✹",
+    \ "Staged"    : "✚",
+    \ "Untracked" : "✭",
+    \ "Renamed"   : "➜",
+    \ "Unmerged"  : "═",
+    \ "Deleted"   : "✖",
+    \ "Dirty"     : "✗",
+    \ "Clean"     : "✔︎",
+    \ 'Ignored'   : '☒',
+    \ "Unknown"   : "?"
+    \ }
+
+"let g:NERDTreeShowIgnoredStatus = 1
+let g:NERDTreeGitStatusShowIgnored = 1
+
+
 
 
 " 查看当前代码文件中的变量和函数列表的插件，
 " 可以切换和跳转到代码中对应的变量和函数的位置
 " 大纲式导航, Go 需要 https://github.com/jstemmer/gotags 支持
-Plugin 'majutsushi/tagbar'
 
+"Plugin 'majutsushi/tagbar'
 
-
-" 自动补全括号的插件，包括小括号，中括号，以及花括号
-Plugin 'jiangmiao/auto-pairs'
-
-
-
-Plugin 'nathanaelkane/vim-indent-guides'
-
-
-
-" Vim状态栏插件，包括显示行号，列号，文件类型，文件名，以及Git状态
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'bling/vim-bufferline'
-
-
-
-" 有道词典在线翻译
-"Plugin 'ianva/vim-youdao-translater'
-
-
-
-" 代码自动完成，安装完插件还需要额外配置才可以使用
-" 需要额外安装步骤：
-" mac: brew install cmake node; cd YouCompleteMe; ./install.py --all
-" ubuntu: sudo apt install cmake; curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
-"         apt-get install -y nodejs; ./install.py --all
-"
-Plugin 'ycm-core/YouCompleteMe'
-
-
-
-" 可以在文档中显示 git 信息
-Plugin 'airblade/vim-gitgutter'
-
-
-
-" 下面两个插件要配合使用，可以自动生成代码块
-"Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
-
-
-
-" 配色方案
-" colorscheme neodark
-"Plugin 'KeitaNakamura/neodark.vim'
-
-
-
-" colorscheme monokai
-Plugin 'crusoexia/vim-monokai'
-
-
-
-" colorscheme github
-Plugin 'acarapetis/vim-colors-github'
-
-
-
-" colorscheme one
-Plugin 'rakr/vim-one'
-
-
-
-Plugin 'altercation/vim-colors-solarized'
-
-
-
-" ack全局搜索插件 需要ag工具 安装如下
-" brew install the_silver_searcher
-" sudo apt install silversearcher-ag
-Plugin 'mileszs/ack.vim'
-
-
-
-" go 主要插件
-Plugin 'fatih/vim-go', { 'tag': '*' }
-" go 中的代码追踪，输入 gd 就可以自动跳转
-Plugin 'dgryski/vim-godef'
-" go 中代码提示
-Plugin 'nsf/gocode', {'rtp': 'vim/'}
-
-
-
-" markdown 插件
-Plugin 'iamcco/mathjax-support-for-mkdp'
-Plugin 'iamcco/markdown-preview.vim'
-
-
-
-" c/c++插件
-"----------------------------------------------------------------
-"Plugin 'a.vim'                              " 头文件和源文件切换
-"Plugin 'octol/vim-cpp-enhanced-highlight'   " 自定义类型 变量的语法高亮
-
-
-
-" solidity 插件
-Plugin 'tomlion/vim-solidity'
-
-" 语法检查器，需要配合solidity语法检查器一块使用 npm install -g solhint
-Plugin 'vim-syntastic/syntastic'
-
-" 语法检查
-Plugin 'sohkai/syntastic-local-solhint'
-
-
-
-" EasyDebugger 插件 调试js go python
-Plugin 'jayli/vim-easydebugger'
-
-" 自动ctags
-Plugin 'ludovicchabant/vim-gutentags'
-
-
-call vundle#end()            " required
-filetype plugin indent on    " required
-
-" 插件结束的位置，插件全部放在此行上面
-" call plug#end()
-
-
-"==============================================================================
-" 主题配色 
-"==============================================================================
-
-" 开启24bit的颜色，开启这个颜色会更漂亮一些
-set termguicolors
-" 配色方案, 可以从上面插件安装中的选择一个使用 
-colorscheme monokai " 主题 one, 或者solarized、monokai
-let g:solarized_termcolors=256
-
-set background=dark " 主题背景 dark-深色; light-浅色
-set t_Co=256
-
-
-"==============================================================================
-" vim-go 插件
-"==============================================================================
-" 格式化将默认的 gofmt 替换
-"let g:go_fmt_command = "goimports" 
-"let g:go_fmt_command = "goimports"
-"let g:go_fmt_command = "gofmt"
-let g:go_autodetect_gopath = 1
-let g:go_list_type = "quickfix"
-
-let g:go_version_warning = 1
-let g:go_highlight_types = 1
-let g:go_highlight_fields = 1
-let g:go_highlight_functions = 1
-let g:go_highlight_function_calls = 1
-let g:go_highlight_operators = 1
-let g:go_highlight_extra_types = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_generate_tags = 1
-
-let g:godef_split=2
-
-
-"==============================================================================
-" NERDTree 插件
-"==============================================================================
-
-" 打开和关闭NERDTree快捷键
-map <F10> :NERDTreeToggle<CR>
-nmap tr :NERDTreeToggle<cr>
-
-
-" 显示行号
-let NERDTreeShowLineNumbers=1
-" 打开文件时是否显示目录
-let NERDTreeAutoCenter=0
-" 是否显示隐藏文件
-let NERDTreeShowHidden=1
-" 设置宽度
-" let NERDTreeWinSize=31
-" 忽略一下文件的显示
-let NERDTreeIgnore=['\.pyc','\~$','\.swp']
-" 打开 vim 文件及显示书签列表
-let NERDTreeShowBookmarks=2
-
-" 在终端启动vim时，共享NERDTree
-let g:nerdtree_tabs_open_on_console_startup=1
-
-" 自动打开NERDTree
-" let NERDTreeQuitOnOpen=0
-" NERDTree 宽度
-" let NERDTreeWinSize=40
-
-"==============================================================================
-"  majutsushi/tagbar 插件
-"==============================================================================
-
+" tagbar 插件插件
 " majutsushi/tagbar 插件打开关闭快捷键
+
 nmap <F9> :TagbarToggle<CR>
 nmap ta :TagbarToggle<CR>
 
@@ -517,67 +441,158 @@ let g:tagbar_type_go = {
 \ }
 
 
-"==============================================================================
-"  nerdtree-git-plugin 插件
-"==============================================================================
-"let g:NERDTreeIndicatorMapCustom = {
-let g:NERDTreeGitStatusIndicatorMapCustom = {
-    \ "Modified"  : "✹",
-    \ "Staged"    : "✚",
-    \ "Untracked" : "✭",
-    \ "Renamed"   : "➜",
-    \ "Unmerged"  : "═",
-    \ "Deleted"   : "✖",
-    \ "Dirty"     : "✗",
-    \ "Clean"     : "✔︎",
-    \ 'Ignored'   : '☒',
-    \ "Unknown"   : "?"
-    \ }
 
-"let g:NERDTreeShowIgnoredStatus = 1
-let g:NERDTreeGitStatusShowIgnored = 1 
+" 自动补全括号的插件，包括小括号，中括号，以及花括号
+Plugin 'jiangmiao/auto-pairs'
 
 
-"==============================================================================
-"  Valloric/YouCompleteMe 插件
-"==============================================================================
+Plugin 'nathanaelkane/vim-indent-guides'
 
-" make YCM compatible with UltiSnips (using supertab)
-let g:ycm_key_list_select_completion = ['<C-n>', '<space>']
-let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-let g:SuperTabDefaultCompletionType = '<C-n>'
-
-" better key bindings for UltiSnipsExpandTrigger
-let g:UltiSnipsExpandTrigger = "<tab>"
-let g:UltiSnipsJumpForwardTrigger = "<tab>"
-let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
-
-
-"==============================================================================
 " indent line guide 插件
-"==============================================================================
+
 let g:indent_guides_enable_on_vim_startup = 1
 let g:indent_guides_start_level=2
 let g:indent_guides_guide_size=1
 let g:indent_guides_auto_colors = 1
 
-"==============================================================================
-" airline 插件
-"==============================================================================
-" airline 状态栏
-set laststatus=2                                                " 永远显示状态栏
-set t_Co=256                                                    " 在windows中用xshell连接打开vim可以显示色彩
-"let g:airline_theme='luna'                                     " 状态栏主题
 
 
-let g:airline#extensions#bufferline#enabled = 1                 " 启用bufferline
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#left_sep = ' '
-let g:airline#extensions#tabline#left_alt_sep = '|'
-let g:airline#extensions#tabline#formatter = 'default'
-"==============================================================================
-"  其他插件配置
-"==============================================================================
+
+
+" 有道词典在线翻译
+"Plugin 'ianva/vim-youdao-translater'
+
+
+
+" 代码自动完成，安装完插件还需要额外配置才可以使用
+" 需要额外安装步骤：
+" mac: brew install cmake node; cd YouCompleteMe; ./install.py --all
+" ubuntu: sudo apt install cmake; curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
+"         apt-get install -y nodejs; ./install.py --all
+"
+
+Plugin 'ycm-core/YouCompleteMe'
+
+" YouCompleteMe 插件配置
+" make YCM compatible with UltiSnips (using supertab)
+
+let g:ycm_key_list_select_completion = ['<C-n>', '<space>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+let g:SuperTabDefaultCompletionType = '<C-n>'
+
+" better key bindings for UltiSnipsExpandTrigger
+
+let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+
+
+
+" 可以在文档中显示 git 信息
+Plugin 'airblade/vim-gitgutter'
+
+
+
+" 下面两个插件要配合使用，可以自动生成代码块
+"Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
+
+" snippets 代码补全插件
+
+let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsListSnippets = "<c-tab>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+
+" If you want :UltiSnipsEdit to split your window.
+
+let g:UltiSnipsEditSplit="vertical"
+
+" personal code snippets
+
+let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/codesnippets']
+
+
+" 配色方案
+" colorscheme neodark
+"Plugin 'KeitaNakamura/neodark.vim'
+
+" vim 主题配色 one monokai solarized
+
+Plugin 'rakr/vim-one'
+Plugin 'crusoexia/vim-monokai'
+Plugin 'altercation/vim-colors-solarized'
+
+" colorscheme github
+
+Plugin 'acarapetis/vim-colors-github'
+
+" 主题配色设置
+" 开启24bit的颜色，开启这个颜色会更漂亮一些
+
+set termguicolors
+
+" 配色方案, 可以从上面插件安装中的选择一个使用
+" 主题 one, 或者solarized、monokai
+" 主题背景 dark-深色; light-浅色
+
+set background=dark
+set t_Co=256
+colorscheme monokai
+let g:solarized_termcolors=256
+
+
+" ack全局搜索插件 需要ag工具 安装如下
+" brew install the_silver_searcher
+" sudo apt install silversearcher-ag
+
+Plugin 'mileszs/ack.vim'
+
+" ack 快捷键
+nmap ag     :Ack
+
+
+
+" go 主要插件
+
+Plugin 'fatih/vim-go', { 'tag': '*' }
+
+" go 中的代码追踪，输入 gd 就可以自动跳转
+
+Plugin 'dgryski/vim-godef'
+
+" go 中代码提示
+
+Plugin 'nsf/gocode', {'rtp': 'vim/'}
+
+
+" vim-go 插件配置
+" 格式化将默认的 gofmt 替换
+
+"let g:go_fmt_command = "goimports"
+"let g:go_fmt_command = "gofmt"
+
+let g:go_autodetect_gopath = 1
+let g:go_list_type = "quickfix"
+
+let g:go_version_warning = 1
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_function_calls = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_generate_tags = 1
+
+let g:godef_split=2
+
+
+
+" markdown 插件
+
+Plugin 'iamcco/mathjax-support-for-mkdp'
+Plugin 'iamcco/markdown-preview.vim'
 
 " markdwon 的快捷键
 "map <silent> <F5> <Plugin>MarkdownPreview
@@ -585,6 +600,152 @@ let g:airline#extensions#tabline#formatter = 'default'
 
 map exp   :MarkdownPreview<CR>
 map ext   :StopMarkdownPreview<CR>
+
+" markdown预览配置
+" https://github.com/suan/vim-instant-markdown
+" start command: InstantMarkdownPreview InstantMarkdownStop
+" stop command: InstantMarkdownStop
+
+" 关闭自动打开预览
+"let g:instant_markdown_autostart = 0
+
+" 设置预览快捷键exp
+"map exp     :InstantMarkdownPreview<CR>
+
+
+
+" c/c++插件
+
+"Plugin 'a.vim'                              " 头文件和源文件切换
+"Plugin 'octol/vim-cpp-enhanced-highlight'   " 自定义类型 变量的语法高亮
+
+" c/c++插件配置
+
+"let g:cpp_class_scope_highlight = 1                    " 突出显示类作用于
+"let g:cpp_member_variable_highlight = 1                " 成员变量突出显示
+"let g:cpp_class_decl_gighlight = 1                     " 在声明中高亮显示类名
+"let g:cpp_posix_standard = 1                           " POSIX功能的高亮显示
+"let g:cpp_experimental_simple_template_highlight = 1   " 模板功能突出显示
+"let g:cpp_experimental_template_highlight = 1          "文件较大时使用高亮模板速度较快，但会有一些小错误
+"let g:cpp_concepts_highlight = 1                       " 库概念突出显示
+
+
+
+
+" solidity 插件
+
+Plugin 'tomlion/vim-solidity'
+
+" 语法检查器，需要配合solidity语法检查器一块使用 npm install -g solhint
+
+Plugin 'vim-syntastic/syntastic'
+
+" 语法检查
+
+Plugin 'sohkai/syntastic-local-solhint'
+
+
+" solidity 插件
+
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+let g:syntastic_solidity_checkers = ['solhint']
+
+
+" EasyDebugger 插件 调试js go python
+
+Plugin 'jayli/vim-easydebugger'
+
+
+" 调试插件
+" Vim-EasyDebugger 快捷键配置
+
+" 启动 NodeJS/Python/Go 调试
+
+nmap <S-R>  <Plug>EasyDebuggerInspect
+
+" 启动 NodeJS 的 Web 调试模式
+
+nmap <S-W>  <Plug>EasyDebuggerWebInspect
+
+" 关闭调试
+
+nmap <S-E>  <Plug>EasyDebuggerExit
+
+" 暂停程序
+
+nmap <F6>   <Plug>EasyDebuggerPause
+tmap <F6>   <Plug>EasyDebuggerPause
+
+" 跳出函数
+
+nmap <F7>   <Plug>EasyDebuggerStepOut
+
+tmap <F7>   <Plug>EasyDebuggerStepOut
+
+" 进入函数
+
+nmap <F8>   <Plug>EasyDebuggerStepIn
+
+tmap <F8>   <Plug>EasyDebuggerStepIn
+
+" 单步执行
+
+nmap <F9>   <Plug>EasyDebuggerNext
+
+tmap <F9>   <Plug>EasyDebuggerNext
+
+" Continue
+
+nmap <F10>  <Plug>EasyDebuggerContinue
+tmap <F10>  <Plug>EasyDebuggerContinue
+
+" 设置断点
+
+nmap <F12>  <Plug>EasyDebuggerSetBreakPoint
+
+
+
+
+" 自动ctags
+Plugin 'ludovicchabant/vim-gutentags'
+
+" gutentags搜索工程目录的标志，碰到这些文件/目录名就停止向上一级目录递归 "
+
+let g:gutentags_project_root = ['.root', '.svn', '.git', '.project']
+
+" 所生成的数据文件的名称 "
+
+let g:gutentags_ctags_tagfile = '.tags'
+
+" 将自动生成的 tags 文件全部放入 ~/.cache/tags 目录中，避免污染工程目录 "
+
+let s:vim_tags = expand('~/.cache/tags')
+let g:gutentags_cache_dir = s:vim_tags
+
+" 检测 ~/.cache/tags 不存在就新建 "
+
+if !isdirectory(s:vim_tags)
+   silent! call mkdir(s:vim_tags, 'p')
+endif
+
+
+
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+
+
+"==============================================================================
+"  其他插件配置
+"==============================================================================
 
 " tab 标签页切换快捷键
 :nn <Leader>1 1gt
@@ -598,17 +759,6 @@ map ext   :StopMarkdownPreview<CR>
 :nn <Leader>9 8gt
 :nn <Leader>0 :tablast<CR>
 
-
-" markdown预览配置
-" https://github.com/suan/vim-instant-markdown
-" start command: InstantMarkdownPreview InstantMarkdownStop
-" stop command: InstantMarkdownStop
-
-" 关闭自动打开预览
-"let g:instant_markdown_autostart = 0
-
-" 设置预览快捷键exp
-"map exp     :InstantMarkdownPreview<CR>
 
 "==============================================================================
 " ctags 插件
@@ -639,59 +789,6 @@ let g:tagbar_type_markdown = {
 \ }
 
 
-" c/c++插件
-"----------------------------------------------------------------
-let g:cpp_class_scope_highlight = 1                    " 突出显示类作用于
-let g:cpp_member_variable_highlight = 1                " 成员变量突出显示
-let g:cpp_class_decl_gighlight = 1                     " 在声明中高亮显示类名
-let g:cpp_posix_standard = 1                           " POSIX功能的高亮显示
-"let g:cpp_experimental_simple_template_highlight = 1   " 模板功能突出显示
-"let g:cpp_experimental_template_highlight = 1          "文件较大时使用高亮模板速度较快，但会有一些小错误, 
-"let g:cpp_concepts_highlight = 1                       " 库概念突出显示
-
-
-" solidity 插件
-"----------------------------------------------------------------
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-
-let g:syntastic_solidity_checkers = ['solhint']
-
-
-" snippets 代码补全插件
-let g:UltiSnipsExpandTrigger = "<tab>"
-let g:UltiSnipsListSnippets = "<c-tab>"
-let g:UltiSnipsJumpForwardTrigger = "<tab>"
-let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
-
-" If you want :UltiSnipsEdit to split your window.
-let g:UltiSnipsEditSplit="vertical"
-" personal code snippets
-let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/codesnippets']
-
-
-"
-"
-"
-" gutentags搜索工程目录的标志，碰到这些文件/目录名就停止向上一级目录递归 "
-let g:gutentags_project_root = ['.root', '.svn', '.git', '.project']
-
-" 所生成的数据文件的名称 "
-let g:gutentags_ctags_tagfile = '.tags'
-
-" 将自动生成的 tags 文件全部放入 ~/.cache/tags 目录中，避免污染工程目录 "
-let s:vim_tags = expand('~/.cache/tags')
-let g:gutentags_cache_dir = s:vim_tags
-" 检测 ~/.cache/tags 不存在就新建 "
-if !isdirectory(s:vim_tags)
-   silent! call mkdir(s:vim_tags, 'p')
-endif
 
 " 配置 ctags 的参数 "
 let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extra=+q']
@@ -731,28 +828,4 @@ if has('gui_running')
 endif
 
 
-" 调试插件
-" Vim-EasyDebugger 快捷键配置
-" 启动 NodeJS/Python/Go 调试
-nmap <S-R>  <Plug>EasyDebuggerInspect
-" 启动 NodeJS 的 Web 调试模式
-nmap <S-W>  <Plug>EasyDebuggerWebInspect
-" 关闭调试
-nmap <S-E>  <Plug>EasyDebuggerExit
-" 暂停程序
-nmap <F6>   <Plug>EasyDebuggerPause
-tmap <F6>   <Plug>EasyDebuggerPause
-" 跳出函数
-nmap <F7>   <Plug>EasyDebuggerStepOut
-tmap <F7>   <Plug>EasyDebuggerStepOut
-" 进入函数
-nmap <F8>   <Plug>EasyDebuggerStepIn
-tmap <F8>   <Plug>EasyDebuggerStepIn
-" 单步执行
-nmap <F9>   <Plug>EasyDebuggerNext
-tmap <F9>   <Plug>EasyDebuggerNext
-" Continue
-nmap <F10>  <Plug>EasyDebuggerContinue
-tmap <F10>  <Plug>EasyDebuggerContinue
-" 设置断点
-nmap <F12>  <Plug>EasyDebuggerSetBreakPoint
+
