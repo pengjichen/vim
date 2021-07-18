@@ -83,6 +83,9 @@ nmap <Leader>v "+p
 
 set incsearch
 
+" 开启搜索所有匹配内容高亮
+
+set hlsearch
 
 " 搜索时大小写不敏感
 
@@ -145,7 +148,10 @@ set nospell
 
 " 打印buffer的列表
 
-nmap ls     :ls<CR>
+" l开头, 影响l按键的相应速度
+" 不建议使用h j k l开头的快捷键
+
+"nmap ls     :ls<CR>
 
 " buffe中下一个r文件
 
@@ -301,13 +307,28 @@ set t_Co=256
 " 状态栏主题
 
 "let g:airline_theme='luna'
-
 " 启用bufferline
 let g:airline#extensions#bufferline#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#formatter = 'default'
+
+" 行号显示插件,在编辑模式下显示绝对行号,在非编辑模式下显示相对行号
+Plugin 'myusuf3/numbers.vim'
+
+let g:numbers_exclude = ['tagbar', 'gundo', 'minibufexpl', 'nerdtree']
+
+"let g:numbers_exclude = ['unite', 'tagbar', 'startify', 'gundo', 'vimshell', 'w3m']
+
+" 打开和关闭相对行号
+nnoremap <F3> :NumbersToggle<CR>
+nnoremap <F4> :NumbersOnOff<CR>
+
+" 表格化
+" :Tabularize /| 即以'|'字符为基准进行表格化对齐,  在markdown文件中编辑表格时非常有用
+
+"Plugin 'godlygeek/tabular'
 
 " 文件夹管理插件
 
@@ -374,7 +395,16 @@ let g:ctrlp_cmd = 'CtrlP'
 " source ~/.bash_profile
 " cd ~/.vim/bundle/command-t/ruby/command-t/ext/command-t
 " ruby extconf.rb &&  make
+
 Plugin 'wincent/command-t'
+
+
+
+" 文件内快速定位插件
+" 跳到某一个位置: <leader><leader> w, <leader><leader> e
+" 跳到输入的指定字符的某一个位置: <leader><leader> f
+
+Plugin 'easymotion/vim-easymotion'
 
 
 
@@ -420,7 +450,7 @@ let g:NERDTreeGitStatusShowIgnored = 1
 " 可以切换和跳转到代码中对应的变量和函数的位置
 " 大纲式导航, Go 需要 https://github.com/jstemmer/gotags 支持
 
-"Plugin 'majutsushi/tagbar'
+Plugin 'majutsushi/tagbar'
 
 " tagbar 插件插件
 " majutsushi/tagbar 插件打开关闭快捷键
@@ -458,9 +488,14 @@ let g:tagbar_type_go = {
 
 
 
-" 自动补全括号的插件，包括小括号，中括号，以及花括号
+" 自动补全括号的插件，包括小括号，中括号，以及花括号, 引号, 单引号等成对字符
 Plugin 'jiangmiao/auto-pairs'
 
+" 括号成对替换 "", '',
+" "Hello world!"
+" 使用命令cs"' 则替换为'Hello world!'
+" 使用命令cs'<p>则替换为<p>Hello world!<p>
+" Plugin 'tpope/vim-surround'
 
 Plugin 'nathanaelkane/vim-indent-guides'
 
@@ -507,6 +542,10 @@ let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 " 可以在文档中显示 git 信息
 Plugin 'airblade/vim-gitgutter'
 
+
+" git tool
+
+Plugin 'tpope/vim-fugitive'
 
 
 " 下面两个插件要配合使用，可以自动生成代码块
@@ -647,6 +686,47 @@ map ext   :StopMarkdownPreview<CR>
 
 
 
+" 代码注释插件 可快速注释多行代码
+"
+
+Plugin 'preservim/nerdcommenter'
+
+" Create default mappings
+
+let g:NERDCreateDefaultMappings = 1
+
+" Add spaces after comment delimiters by default
+
+let g:NERDSpaceDelims = 1
+
+" Use compact syntax for prettified multi-line comments
+
+let g:NERDCompactSexyComs = 1
+
+" Align line-wise comment delimiters flush left instead of following code indentation
+
+let g:NERDDefaultAlign = 'left'
+
+" Set a language to use its alternate delimiters by default
+
+let g:NERDAltDelims_java = 1
+
+" Add your own custom formats or override the defaults
+
+let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
+
+" Allow commenting and inverting empty lines (useful when commenting a region)
+
+let g:NERDCommentEmptyLines = 1
+
+" Enable trimming of trailing whitespace when uncommenting
+
+let g:NERDTrimTrailingWhitespace = 1
+
+" Enable NERDCommenterToggle to check all selected lines is commented or not
+
+let g:NERDToggleCheckAllLines = 1
+
 
 " solidity 插件
 
@@ -656,13 +736,6 @@ Plugin 'tomlion/vim-solidity'
 
 Plugin 'vim-syntastic/syntastic'
 
-" 语法检查
-
-Plugin 'sohkai/syntastic-local-solhint'
-
-
-" solidity 插件
-
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -671,6 +744,14 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+
+
+" 语法检查
+
+Plugin 'sohkai/syntastic-local-solhint'
+
+
+" solidity 插件
 
 let g:syntastic_solidity_checkers = ['solhint']
 
