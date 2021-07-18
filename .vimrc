@@ -515,57 +515,91 @@ let g:indent_guides_auto_colors = 1
 
 
 
+
+"===================================================================
+" 代码补全插件
+" 自动补全: ycm-core/YouCompleteMe
+" 代码段补全: SirVer/ultisnips
+" 代码段仓库: honza/vim-snippets, 需要配合ultisnips使用,
+" 此仓库可以fork一份到自己github中, 方便增加自定义代码段
+
 " 代码自动完成，安装完插件还需要额外配置才可以使用
+" 如果使用了ultisnips代码段插件, 还需要处理tab键的冲突问题
 " 需要额外安装步骤：
-" mac: brew install cmake node; cd YouCompleteMe; ./install.py --all
-" ubuntu: sudo apt install cmake; curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
-"         apt-get install -y nodejs; ./install.py --all
+" mac:
+"   brew install cmake node; cd YouCompleteMe; ./install.py --all
+" ubuntu:
+"   sudo apt install cmake; curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
+"   apt-get install -y nodejs; ./install.py --all
 "
+"===================================================================
+
+" 自动补全
 
 Plugin 'ycm-core/YouCompleteMe'
 
-" YouCompleteMe 插件配置
-" make YCM compatible with UltiSnips (using supertab)
+" 代码段补全
 
-let g:ycm_key_list_select_completion = ['<C-n>', '<space>']
-let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-let g:SuperTabDefaultCompletionType = '<C-n>'
+Plugin 'SirVer/ultisnips'
 
-" better key bindings for UltiSnipsExpandTrigger
+" 代码段仓库
+Plugin 'pengjichenorg/vim-snippets'
 
-let g:UltiSnipsExpandTrigger = "<tab>"
-let g:UltiSnipsJumpForwardTrigger = "<tab>"
-let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+
+" 处理youcomplete和ultisnips对于tab键的冲突的问题
+" 如果有snips，直接按tab键就可以完成添加
+" tab键往下走，shfit+tab键往上走
+
+    function! g:UltiSnips_Complete()
+      call UltiSnips#ExpandSnippet()
+      if g:ulti_expand_res == 0
+        if pumvisible()
+          return "\<C-n>"
+        else
+          call UltiSnips#JumpForwards()
+          if g:ulti_jump_forwards_res == 0
+            return "\<TAB>"
+          endif
+        endif
+      endif
+      return ""
+    endfunction
+
+    function! g:UltiSnips_Reverse()
+      call UltiSnips#JumpBackwards()
+      if g:ulti_jump_backwards_res == 0
+        return "\<C-P>"
+      endif
+
+      return ""
+    endfunction
+
+
+    if !exists("g:UltiSnipsJumpForwardTrigger")
+      let g:UltiSnipsJumpForwardTrigger = "<tab>"
+    endif
+    if !exists("g:UltiSnipsJumpBackwardTrigger")
+      let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+    endif
+
+    au InsertEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger     . " <C-R>=g:UltiSnips_Complete()<cr>"
+    au InsertEnter * exec "inoremap <silent> " .     g:UltiSnipsJumpBackwardTrigger . " <C-R>=g:UltiSnips_Reverse()<cr>"
 
 
 
 " 可以在文档中显示 git 信息
+
 Plugin 'airblade/vim-gitgutter'
 
 
 " git tool
+" 整合git命令, 避免使用!git xxx命令先弹回terminal再返回vim过程
 
 Plugin 'tpope/vim-fugitive'
 
 
 " 下面两个插件要配合使用，可以自动生成代码块
-"Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
 
-" snippets 代码补全插件
-
-let g:UltiSnipsExpandTrigger = "<tab>"
-let g:UltiSnipsListSnippets = "<c-tab>"
-let g:UltiSnipsJumpForwardTrigger = "<tab>"
-let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
-
-" If you want :UltiSnipsEdit to split your window.
-
-let g:UltiSnipsEditSplit="vertical"
-
-" personal code snippets
-
-let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/codesnippets']
 
 
 " 配色方案
