@@ -284,9 +284,12 @@ nmap ml :%!xmllint --format --encode UTF-8 -<cr>
 
 "=======================================
 " 基础插件
-" 插件管理器: VundleVim/Vundle.vim
+" airline
+" bufferline
+" nerdtree
+" tagbar
+" airblade/vim-gitgutter
 "=======================================
-
 
 "===================
 " 插件管理器: VundleVim/Vundle.vim
@@ -294,6 +297,7 @@ nmap ml :%!xmllint --format --encode UTF-8 -<cr>
 "call plug#begin('~/.vim/plugged')
 " be iMproved, required
 "===================
+
 " required
 
 set nocompatible
@@ -305,15 +309,6 @@ call vundle#begin()
 " 插件管理器
 
 Plugin 'VundleVim/Vundle.vim'
-
-
-"===================
-" 启动界面插件: mhinz/vim-startify
-" 可以显示近期使用的文件
-" mac下无法显示近期使用的问题件的问题尚未解决
-"===================
-
-Plugin 'mhinz/vim-startify'
 
 
 "===================
@@ -361,31 +356,26 @@ Plugin 'bling/vim-bufferline'
 
 
 "===================
-" 行号显示插件: myusuf3/numbers.vim
-" 在编辑模式下显示绝对行号,在非编辑模式下显示相对行号
+" 配色方案
+" 配色下载后需要拷贝到.vim/colors文件下
+" vim 常用主题配色 one monokai solarized
+" colorscheme github: acarapetis/vim-colors-github
 "===================
 
-Plugin 'myusuf3/numbers.vim'
+Plugin 'rakr/vim-one'
+Plugin 'crusoexia/vim-monokai'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'KeitaNakamura/neodark.vim'
+Plugin 'acarapetis/vim-colors-github'
 
-    " 不显示相对行号的面板
+    " 开启24bit的颜色，开启这个颜色会更漂亮一些
 
-    let g:numbers_exclude = ['tagbar', 'gundo', 'minibufexpl', 'nerdtree']
+    set termguicolors
+    set background=dark
+    set t_Co=256
+    colorscheme monokai
+    let g:solarized_termcolors=256
 
-    " 打开和关闭相对行号
-
-    nnoremap <F3> :NumbersToggle<CR>
-    nnoremap <F4> :NumbersOnOff<CR>
-
-        ""let g:numbers_exclude = ['unite', 'tagbar', 'startify', 'gundo', 'vimshell', 'w3m']
-
-
-"===================
-" 表格化
-" :Tabularize /| 即以'|'字符为基准进行表格化对齐
-" 在markdown文件中编辑表格时非常有用
-"===================
-
-Plugin 'godlygeek/tabular'
 
 "===================
 " 文件夹管理插件: scrooloose/nerdtree
@@ -432,6 +422,33 @@ Plugin 'scrooloose/nerdtree'
 
 
 "===================
+" 大纲插件: majutsushi/tagbar
+" 查看当前代码文件中的变量和函数列表的插件，
+" 可以切换和跳转到代码中对应的变量和函数的位置
+" 大纲式导航, Go 需要 https://github.com/jstemmer/gotags 支持
+"===================
+
+Plugin 'majutsushi/tagbar'
+
+    nmap ta :TagbarToggle<CR>
+
+"===================
+" 缩进显示: nathanaelkane/vim-indent-guides
+"===================
+
+Plugin 'nathanaelkane/vim-indent-guides'
+
+    let g:indent_guides_enable_on_vim_startup = 1
+    let g:indent_guides_start_level=2
+    let g:indent_guides_guide_size=1
+    let g:indent_guides_auto_colors = 1
+
+
+"=======================================
+" 文件搜索 文件内容搜索插件
+"=======================================
+
+"===================
 " 文件查找插件: kien/ctrlp.vim
 "===================
 
@@ -440,9 +457,6 @@ Plugin 'kien/ctrlp.vim'
     let g:ctrlp_map = '<c-p>'
     let g:ctrlp_cmd = 'CtrlP'
 
-"===================
-" 文件查找插件: kien/ctrlp.vim
-"===================
 
 "===================
 " 文件查找插件: command-t
@@ -478,126 +492,21 @@ Plugin 'easymotion/vim-easymotion'
 
 
 "===================
-" 玩具插件: matrix.vim--Yang
-" 黑客帝国屏幕字符流效果
+" ack全局搜索插件: mileszs/ack.vim
+" 需要ag工具 安装如下:
+" brew install the_silver_searcher
+" sudo apt install silversearcher-ag
 "===================
 
-Plugin 'matrix.vim--Yang'
+Plugin 'mileszs/ack.vim'
 
-" Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
-" 可以快速对齐的插件
-"Plugin 'junegunn/vim-easy-align'
-
-
-" 可以使 nerdtree Tab 标签的名称更友好些
-"Plugin 'jistr/vim-nerdtree-tabs'
+" ack 快捷键
+nmap ag     :Ack
 
 
-"===================
-" nerdtree拓展插件: Xuyuanp/nerdtree-git-plugin
-" 可以在导航目录中看到 git 版本信息
-"===================
-
-Plugin 'Xuyuanp/nerdtree-git-plugin'
-
-    let g:NERDTreeGitStatusIndicatorMapCustom = {
-        \ "Modified"  : "✹",
-        \ "Staged"    : "✚",
-        \ "Untracked" : "✭",
-        \ "Renamed"   : "➜",
-        \ "Unmerged"  : "═",
-        \ "Deleted"   : "✖",
-        \ "Dirty"     : "✗",
-        \ "Clean"     : "✔︎",
-        \ 'Ignored'   : '☒',
-        \ "Unknown"   : "?"
-        \ }
-
-    "let g:NERDTreeShowIgnoredStatus = 1
-    let g:NERDTreeGitStatusShowIgnored = 1
-
-
-
-"===================
-" 大纲插件: majutsushi/tagbar
-" 查看当前代码文件中的变量和函数列表的插件，
-" 可以切换和跳转到代码中对应的变量和函数的位置
-" 大纲式导航, Go 需要 https://github.com/jstemmer/gotags 支持
-"===================
-
-Plugin 'majutsushi/tagbar'
-
-    nmap ta :TagbarToggle<CR>
-
-    let g:tagbar_type_go = {
-        \ 'ctagstype' : 'go',
-        \ 'kinds'     : [
-            \ 'p:package',
-            \ 'i:imports:1',
-            \ 'c:constants',
-            \ 'v:variables',
-            \ 't:types',
-            \ 'n:interfaces',
-            \ 'w:fields',
-            \ 'e:embedded',
-            \ 'm:methods',
-            \ 'r:constructor',
-            \ 'f:functions'
-        \ ],
-        \ 'sro' : '.',
-        \ 'kind2scope' : {
-            \ 't' : 'ctype',
-            \ 'n' : 'ntype'
-        \ },
-        \ 'scope2kind' : {
-            \ 'ctype' : 't',
-            \ 'ntype' : 'n'
-        \ },
-        \ 'ctagsbin'  : 'gotags',
-        \ 'ctagsargs' : '-sort -silent'
-    \ }
-
-
-
-"===================
-" 自动补全括号的插件: jiangmiao/auto-pairs
-" 包括小括号，中括号，以及花括号, 引号, 单引号等成对字符
-"===================
-
-Plugin 'jiangmiao/auto-pairs'
-
-
-"===================
-" 括号成对替换如 "", '': tpope/vim-surround
-" "Hello world!"
-" 使用命令cs"' 则替换为'Hello world!'
-" 使用命令cs'<p>则替换为<p>Hello world!<p>
-"===================
-
-" Plugin 'tpope/vim-surround'
-
-
-"===================
-" 缩进显示: nathanaelkane/vim-indent-guides
-"===================
-
-Plugin 'nathanaelkane/vim-indent-guides'
-
-    let g:indent_guides_enable_on_vim_startup = 1
-    let g:indent_guides_start_level=2
-    let g:indent_guides_guide_size=1
-    let g:indent_guides_auto_colors = 1
-
-
-"===================
-" 有道词典在线翻译
-"Plugin 'ianva/vim-youdao-translater'
-
-"===================
-
-
-"===================
+"=======================================
 " 代码补全插件
+
 " 自动补全: ycm-core/YouCompleteMe
 " 代码段补全: SirVer/ultisnips
 " 代码段仓库: honza/vim-snippets, 需要配合ultisnips使用,
@@ -611,7 +520,7 @@ Plugin 'nathanaelkane/vim-indent-guides'
 " ubuntu:
 "   sudo apt install cmake; curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
 "   apt-get install -y nodejs; ./install.py --all
-"===================
+"=======================================
 
 " 自动补全
 
@@ -665,6 +574,33 @@ Plugin 'pengjichenorg/vim-snippets'
     au InsertEnter * exec "inoremap <silent> " .     g:UltiSnipsJumpBackwardTrigger . " <C-R>=g:UltiSnips_Reverse()<cr>"
 
 
+"=======================================
+" git插件
+"=======================================
+
+"===================
+" nerdtree拓展插件: Xuyuanp/nerdtree-git-plugin
+" 可以在导航目录中看到 git 版本信息
+"===================
+
+Plugin 'Xuyuanp/nerdtree-git-plugin'
+
+    let g:NERDTreeGitStatusIndicatorMapCustom = {
+        \ "Modified"  : "✹",
+        \ "Staged"    : "✚",
+        \ "Untracked" : "✭",
+        \ "Renamed"   : "➜",
+        \ "Unmerged"  : "═",
+        \ "Deleted"   : "✖",
+        \ "Dirty"     : "✗",
+        \ "Clean"     : "✔︎",
+        \ 'Ignored'   : '☒',
+        \ "Unknown"   : "?"
+        \ }
+
+    "let g:NERDTreeShowIgnoredStatus = 1
+    let g:NERDTreeGitStatusShowIgnored = 1
+
 
 "===================
 " git信息显示: airblade/vim-gitgutter
@@ -681,74 +617,9 @@ Plugin 'airblade/vim-gitgutter'
 Plugin 'tpope/vim-fugitive'
 
 
-"===================
-" 配色方案
-" 配色下载后需要拷贝到.vim/colors文件下
-" vim 常用主题配色 one monokai solarized
-" colorscheme github: acarapetis/vim-colors-github
-"===================
-
-Plugin 'rakr/vim-one'
-Plugin 'crusoexia/vim-monokai'
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'KeitaNakamura/neodark.vim'
-Plugin 'acarapetis/vim-colors-github'
-
-    " 开启24bit的颜色，开启这个颜色会更漂亮一些
-
-    set termguicolors
-    set background=dark
-    set t_Co=256
-    colorscheme monokai
-    let g:solarized_termcolors=256
-
-
-"===================
-" ack全局搜索插件: mileszs/ack.vim
-" 需要ag工具 安装如下:
-" brew install the_silver_searcher
-" sudo apt install silversearcher-ag
-"===================
-
-Plugin 'mileszs/ack.vim'
-
-" ack 快捷键
-nmap ag     :Ack
-
-
-
-"===================
-" go 主要插件: fatih/vim-go
-" go 中的代码追踪，输入 gd 就可以自动跳转: dgryski/vim-godef'
-" go 中代码提示: nsf/gocode
-"===================
-
-Plugin 'fatih/vim-go', { 'tag': '*' }
-Plugin 'dgryski/vim-godef'
-Plugin 'nsf/gocode', {'rtp': 'vim/'}
-
-
-    " vim-go 插件配置
-    " 格式化将默认的 gofmt 替换
-
-    "let g:go_fmt_command = "goimports"
-    "let g:go_fmt_command = "gofmt"
-
-    let g:go_autodetect_gopath = 1
-    let g:go_list_type = "quickfix"
-
-    let g:go_version_warning = 1
-    let g:go_highlight_types = 1
-    let g:go_highlight_fields = 1
-    let g:go_highlight_functions = 1
-    let g:go_highlight_function_calls = 1
-    let g:go_highlight_operators = 1
-    let g:go_highlight_extra_types = 1
-    let g:go_highlight_methods = 1
-    let g:go_highlight_generate_tags = 1
-
-    let g:godef_split=2
-
+"=======================================
+" markdown插件
+"=======================================
 
 "===================
 " markdown 插件
@@ -786,22 +657,41 @@ Plugin 'iamcco/markdown-preview.vim'
 
 
 "===================
-" c/c++插件
-"Plugin 'a.vim'                              " 头文件和源文件切换
-"Plugin 'octol/vim-cpp-enhanced-highlight'   " 自定义类型 变量的语法高亮
-
-" c/c++插件配置
-
-"let g:cpp_class_scope_highlight = 1                    " 突出显示类作用于
-"let g:cpp_member_variable_highlight = 1                " 成员变量突出显示
-"let g:cpp_class_decl_gighlight = 1                     " 在声明中高亮显示类名
-"let g:cpp_posix_standard = 1                           " POSIX功能的高亮显示
-"let g:cpp_experimental_simple_template_highlight = 1   " 模板功能突出显示
-"let g:cpp_experimental_template_highlight = 1          "文件较大时使用高亮模板速度较快，但会有一些小错误
-"let g:cpp_concepts_highlight = 1                       " 库概念突出显示
+" 表格化对齐插件
+" :Tabularize /| 即以'|'字符为基准进行表格化对齐
+" 在markdown文件中编辑表格时非常有用
 "===================
 
+Plugin 'godlygeek/tabular'
 
+
+"===================
+" markdown tagrbar: jszakmeister/markdown2ctags
+"===================
+
+Plugin 'jszakmeister/markdown2ctags'
+
+    " Add support for markdown files in tagbar.
+
+    let g:tagbar_type_markdown = {
+        \ 'ctagstype': 'markdown',
+        \ 'ctagsbin' : '~/.vim/bundle/markdown2ctags/markdown2ctags.py',
+        \ 'ctagsargs' : '-f - --sort=yes --sro=»',
+        \ 'kinds' : [
+            \ 's:sections',
+            \ 'i:images'
+        \ ],
+        \ 'sro' : '»',
+        \ 'kind2scope' : {
+            \ 's' : 'section',
+        \ },
+        \ 'sort': 0,
+    \ }
+
+
+"=======================================
+" 编程语言插件
+"=======================================
 
 "===================
 " 代码注释插件 可快速注释多行代码
@@ -847,7 +737,113 @@ Plugin 'preservim/nerdcommenter'
 
 
 "===================
-" solidity 插件
+" c/c++插件
+
+" 头文件和源文件切换
+
+"Plugin 'a.vim'
+
+" 自定义类型 变量的语法高亮
+
+"Plugin 'octol/vim-cpp-enhanced-highlight'
+
+    " c/c++插件配置
+
+    " 突出显示类作用于
+
+    "let g:cpp_class_scope_highlight = 1
+
+    " 成员变量突出显示
+
+    "let g:cpp_member_variable_highlight = 1
+
+    " 在声明中高亮显示类名
+
+    "let g:cpp_class_decl_gighlight = 1
+
+    " POSIX功能的高亮显示
+
+    "let g:cpp_posix_standard = 1
+
+    " 模板功能突出显示
+
+    "let g:cpp_experimental_simple_template_highlight = 1
+
+    "文件较大时使用高亮模板速度较快，但会有一些小错误
+
+    "let g:cpp_experimental_template_highlight = 1
+
+    " 库概念突出显示
+
+    "let g:cpp_concepts_highlight = 1
+"===================
+
+
+"===================
+" go 主要插件: fatih/vim-go
+" go 中的代码追踪，输入 gd 就可以自动跳转: dgryski/vim-godef'
+" go 中代码提示: nsf/gocode
+"===================
+
+Plugin 'fatih/vim-go', { 'tag': '*' }
+Plugin 'dgryski/vim-godef'
+Plugin 'nsf/gocode', {'rtp': 'vim/'}
+
+
+    " vim-go 插件配置
+    " 格式化将默认的 gofmt 替换
+
+    "let g:go_fmt_command = "goimports"
+    "let g:go_fmt_command = "gofmt"
+
+    let g:go_autodetect_gopath = 1
+    let g:go_list_type = "quickfix"
+
+    let g:go_version_warning = 1
+    let g:go_highlight_types = 1
+    let g:go_highlight_fields = 1
+    let g:go_highlight_functions = 1
+    let g:go_highlight_function_calls = 1
+    let g:go_highlight_operators = 1
+    let g:go_highlight_extra_types = 1
+    let g:go_highlight_methods = 1
+    let g:go_highlight_generate_tags = 1
+
+    let g:godef_split=2
+
+    " tagbar for go
+
+    let g:tagbar_type_go = {
+        \ 'ctagstype' : 'go',
+        \ 'kinds'     : [
+            \ 'p:package',
+            \ 'i:imports:1',
+            \ 'c:constants',
+            \ 'v:variables',
+            \ 't:types',
+            \ 'n:interfaces',
+            \ 'w:fields',
+            \ 'e:embedded',
+            \ 'm:methods',
+            \ 'r:constructor',
+            \ 'f:functions'
+        \ ],
+        \ 'sro' : '.',
+        \ 'kind2scope' : {
+            \ 't' : 'ctype',
+            \ 'n' : 'ntype'
+        \ },
+        \ 'scope2kind' : {
+            \ 'ctype' : 't',
+            \ 'ntype' : 'n'
+        \ },
+        \ 'ctagsbin'  : 'gotags',
+        \ 'ctagsargs' : '-sort -silent'
+    \ }
+
+
+"===================
+" solidity插件: tomlion/vim-solidity
 "===================
 
 Plugin 'tomlion/vim-solidity'
@@ -867,19 +863,16 @@ Plugin 'vim-syntastic/syntastic'
     let g:syntastic_check_on_open = 1
     let g:syntastic_check_on_wq = 0
 
+    " 设置solidity语法检查器
+
+    let g:syntastic_solidity_checkers = ['solhint']
+
 
 "===================
 " 语法检查
 "===================
 
 Plugin 'sohkai/syntastic-local-solhint'
-
-
-"===================
-" solidity 插件
-"===================
-
-let g:syntastic_solidity_checkers = ['solhint']
 
 
 "===================
@@ -939,6 +932,92 @@ Plugin 'jayli/vim-easydebugger'
     nmap <F12>  <Plug>EasyDebuggerSetBreakPoint
 
 
+"=======================================
+" 其他实用优化工具
+"=======================================
+
+"===================
+" 启动界面插件: mhinz/vim-startify
+" 可以显示近期使用的文件
+" mac下无法显示近期使用的问题件的问题尚未解决
+"===================
+
+Plugin 'mhinz/vim-startify'
+
+
+"===================
+" 行号显示插件: myusuf3/numbers.vim
+" 在编辑模式下显示绝对行号,在非编辑模式下显示相对行号
+"===================
+
+Plugin 'myusuf3/numbers.vim'
+
+    " 不显示相对行号的面板
+
+    let g:numbers_exclude = ['tagbar', 'gundo', 'minibufexpl', 'nerdtree']
+
+    " 打开和关闭相对行号
+
+    nnoremap <F3> :NumbersToggle<CR>
+    nnoremap <F4> :NumbersOnOff<CR>
+
+        ""let g:numbers_exclude = ['unite', 'tagbar', 'startify', 'gundo', 'vimshell', 'w3m']
+
+
+"===================
+" 玩具插件: matrix.vim--Yang
+" 黑客帝国屏幕字符流效果
+"===================
+
+Plugin 'matrix.vim--Yang'
+
+
+" Shorthand notation; fetches https://github.com/junegunn/vim-easy-align
+" 可以快速对齐的插件
+"Plugin 'junegunn/vim-easy-align'
+
+
+" 可以使 nerdtree Tab 标签的名称更友好些
+"Plugin 'jistr/vim-nerdtree-tabs'
+
+
+"===================
+" 自动补全括号的插件: jiangmiao/auto-pairs
+" 包括小括号，中括号，以及花括号, 引号, 单引号等成对字符
+"===================
+
+Plugin 'jiangmiao/auto-pairs'
+
+
+"===================
+" 括号成对替换插件: tpope/vim-surround
+" 如 "", ''
+" "Hello world!"
+" 使用命令cs"' 则替换为'Hello world!'
+" 使用命令cs'<p>则替换为<p>Hello world!<p>
+"===================
+
+" Plugin 'tpope/vim-surround'
+
+
+
+"===================
+" 有道词典在线翻译
+"Plugin 'ianva/vim-youdao-translater'
+"===================
+
+
+"=======================================
+" ctags配置
+"=======================================
+
+    " set tags=tags
+    " 在当前工作目录下搜索tags文件, 三方库和系统库路径 自定义路径
+    " set tags+=./tags
+    " set tags+=/Users/user/lib/tags
+
+    map tags :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
+    nmap ts     :<ESC>g<C-]>
 
 
 "===================
@@ -966,6 +1045,14 @@ Plugin 'ludovicchabant/vim-gutentags'
        silent! call mkdir(s:vim_tags, 'p')
     endif
 
+    " 配置 ctags 的参数 "
+
+    let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extra=+q']
+    let g:gutentags_ctags_extra_args += ['--c++-kinds=+pxI']
+    let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
+
+
+
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -973,10 +1060,8 @@ filetype plugin indent on    " required
 
 
 "=======================================
-"  其他插件配置
+" tab 标签页切换快捷键
 "=======================================
-
-    " tab 标签页切换快捷键
     :nn <Leader>1 1gt
     :nn <Leader>2 2gt
     :nn <Leader>3 3gt
@@ -989,63 +1074,31 @@ filetype plugin indent on    " required
     :nn <Leader>0 :tablast<CR>
 
 
-"=======================================
-" ctags 插件
-"=======================================
-
-    " set tags=tags
-    " 在当前工作目录下搜索tags文件, 三方库和系统库路径 自定义路径
-    " set tags+=./tags
-    " set tags+=/Users/user/lib/tags
-
-    map tags :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR>
-    nmap ts     :<ESC>g<C-]>
-
-
-    "\ 'ctagsbin' : '/Users/pjc/.vim/bundle/markdown2ctags/markdown2ctags.py',
-    " Add support for markdown files in tagbar.
-    let g:tagbar_type_markdown = {
-        \ 'ctagstype': 'markdown',
-        \ 'ctagsbin' : '/Users/pjc/.vim/bundle/markdown2ctags/markdown2ctags.py',
-        \ 'ctagsargs' : '-f - --sort=yes --sro=»',
-        \ 'kinds' : [
-            \ 's:sections',
-            \ 'i:images'
-        \ ],
-        \ 'sro' : '»',
-        \ 'kind2scope' : {
-            \ 's' : 'section',
-        \ },
-        \ 'sort': 0,
-    \ }
-
-
-
-    " 配置 ctags 的参数 "
-    let g:gutentags_ctags_extra_args = ['--fields=+niazS', '--extra=+q']
-    let g:gutentags_ctags_extra_args += ['--c++-kinds=+pxI']
-    let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
-
-
 " ==============================================================================
 " GVim 的配置
 "==============================================================================
+
     " 如果不使用 GVim ，可以不用配置下面的配置
     if has('gui_running')
-            colorscheme one
+        colorscheme one
+
         " 设置启动时窗口的大小
+
         set lines=999 columns=999 linespace=4
 
         " 设置字体及大小
-            set guifont=Roboto\ Mono\ 13
+
+        set guifont=Roboto\ Mono\ 13
 
         set guioptions-=m " 隐藏菜单栏
         set guioptions-=T " 隐藏工具栏
         set guioptions-=L " 隐藏左侧滚动条
         set guioptions-=r " 隐藏右侧滚动条
         set guioptions-=b " 隐藏底部滚动条
-                " 在 gvim 下不会和 terminal 的 alt+数字的快捷键冲突，
+
+        " 在 gvim 下不会和 terminal 的 alt+数字的快捷键冲突，
         " 所以将 tab 切换配置一份 alt+数字的快捷键
+
         :nn <M-1> 1gt
         :nn <M-2> 2gt
         :nn <M-3> 3gt
@@ -1054,7 +1107,7 @@ filetype plugin indent on    " required
         :nn <M-6> 6gt
         :nn <M-7> 7gt
         :nn <M-8> 8gt
-            :nn <M-9> 9gt
-            :nn <M-0> :tablast<CR>
+        :nn <M-9> 9gt
+        :nn <M-0> :tablast<CR>
     endif
 
