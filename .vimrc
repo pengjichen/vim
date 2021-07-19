@@ -278,6 +278,22 @@ nmap <Leader>g :!go run %<CR>
 nmap ml :%!xmllint --format --encode UTF-8 -<cr>
 
 
+" vim diff 内置快捷键
+
+" diff时
+" ]c    " 跳转到下一处不同的地方
+" [c    " 跳转到上一处不同的地方
+
+" diff put 文件差异内容覆盖
+" dp     " 将当前差异内容覆盖到另一个文件对应位置
+" do     " 将另一个文件中的差异内容拉取到当前文件对应位置并覆盖
+
+" merge时
+" :diffg RE  " get from REMOTE
+" :diffg BA  " get from BASE
+" :diffg LO  " get from LOCAL
+
+
 "===============================================================================
 " 插件配置
 "===============================================================================
@@ -948,20 +964,21 @@ Plugin 'mhinz/vim-startify'
 "===================
 " 行号显示插件: myusuf3/numbers.vim
 " 在编辑模式下显示绝对行号,在非编辑模式下显示相对行号
+" 使用ctrl+j快速滚动屏幕内容时会卡顿
 "===================
 
-Plugin 'myusuf3/numbers.vim'
-
-    " 不显示相对行号的面板
-
-    let g:numbers_exclude = ['tagbar', 'gundo', 'minibufexpl', 'nerdtree']
-
-    " 打开和关闭相对行号
-
-    nnoremap <F3> :NumbersToggle<CR>
-    nnoremap <F4> :NumbersOnOff<CR>
-
-        ""let g:numbers_exclude = ['unite', 'tagbar', 'startify', 'gundo', 'vimshell', 'w3m']
+"Plugin 'myusuf3/numbers.vim'
+"
+"    " 不显示相对行号的面板
+"
+"    let g:numbers_exclude = ['tagbar', 'gundo', 'minibufexpl', 'nerdtree']
+"
+"    " 打开和关闭相对行号
+"
+"    nnoremap <F3> :NumbersToggle<CR>
+"    nnoremap <F4> :NumbersOnOff<CR>
+"
+"        ""let g:numbers_exclude = ['unite', 'tagbar', 'startify', 'gundo', 'vimshell', 'w3m']
 
 
 "===================
