@@ -1069,7 +1069,9 @@ Plugin 'ludovicchabant/vim-gutentags'
     let g:gutentags_ctags_extra_args += ['--c-kinds=+px']
 
 
-
+" 最近打开文件列表
+"
+Plugin 'vim-scripts/mru.vim'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
