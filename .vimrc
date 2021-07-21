@@ -135,6 +135,20 @@ set hlsearch
 
 set ignorecase
 
+" 智能搜索模式
+" 当 ignorecase 和 smartcase 选项均打开时,
+" 只要你的搜索模式中包含大写字母,
+" 那Vim会认为你当前的搜索是区分大小写的，
+" 如果搜索模式中不包含任何大写字母，Vim则会认为搜索应该不区分大小写。
+" 这是个比较”智能的”推测你搜索意图的机制。
+
+set smartcase
+
+" 假设光标当前所有单词为the，那么在当前光标位置执行命令 * 相当于搜索命令 /\<the\>，命令 # 等同于命令 ?\<the\>。\< 是一个单词定界符，表示只匹配单词的开头，\> 也是单词定界符，表示只匹配单词末尾
+
+" 如果想搜索当前光标所在位置的单词，可以先输入 / 进入搜索模式，然后依次输入命令 <Ctrl-r><Ctrl-w> 来复制光标下的单词并将其插入命令行中。
+
+" noh 消除此次搜索高亮
 
 
 " 退出插入模式指定类型的文件自动保存
@@ -292,6 +306,30 @@ nmap ml :%!xmllint --format --encode UTF-8 -<cr>
 " :diffg RE  " get from REMOTE
 " :diffg BA  " get from BASE
 " :diffg LO  " get from LOCAL
+
+
+" 新建上方窗口, 在窗口中打开内置terminal
+
+nmap term   :term<CR>
+
+" 新建左侧窗口, 在窗口中打开内置terminal
+
+nmap termvs   :bel vertical term<CR>
+
+
+" 状态栏
+set laststatus=2      " 总是显示状态栏
+highlight StatusLine cterm=bold ctermfg=yellow ctermbg=blue
+" 获取当前路径，将$HOME转化为~
+function! CurDir()
+        let curdir = substitute(getcwd(), $HOME, "~", "g")
+        return curdir
+endfunction
+set statusline=[%n]\ %f%m%r%h\ \|\ \ pwd:\ %{CurDir()}\ \ \|%=\|\ %l,%c\ %p%%\ \|\ ascii=%b,hex=%b%{((&fenc==\"\")?\"\":\"\ \|\ \".&fenc)}\ \|\ %{$USER}\ @\ %{hostname()}\
+
+" 或以下两句
+"set statusline=[%F]%y%r%m%*%=[Line:%l/%L,Column:%c][%p%%] "显示文件名：总行数，总的字符数
+"set ruler "在编辑过程中，在右下角显示光标位置的状态行
 
 
 "===============================================================================
@@ -516,8 +554,61 @@ Plugin 'easymotion/vim-easymotion'
 
 Plugin 'mileszs/ack.vim'
 
-" ack 快捷键
-nmap ag     :Ack
+    " 使用ag作为搜索工具
+
+    if executable('ag')
+        let g:ackprg = 'ag --vimgrep'
+    endif
+
+    " 防止自动跳转到第一个搜索结果
+    cnoreabbrev Ack Ack!
+
+    " 由于<leader>a 已被用于窗口切换, 所以使用<ldader>c作为ack快捷键
+
+    nnoremap <Leader>c :Ack!<Space>
+
+    " ack 快捷键
+    nmap ag     :Ack
+
+    "高亮搜索关键词
+
+    let g:ackhighlight = 1
+
+    "修改快速预览窗口高度为15
+
+    let g:ack_qhandler = "botright copen 15"
+
+    "在QuickFix窗口使用快捷键以后，自动关闭QuickFix窗口
+
+    let g:ack_autoclose = 1
+
+    "使用ack的空白搜索，即不添加任何参数时对光标下的单词进行搜索，默认值为1，表示开启，置0以后使用空白搜索将返回错误信息
+
+    let g:ack_use_cword_for_empty_search = 1
+
+    let g:ackprg = 'ag --nogroup --nocolor --column'
+
+    "部分功能受限，但对于大项目搜索速度较慢时可以尝试开启
+
+    "let g:ack_use_dispatch = 1
+
+
+
+"===================
+" QuickFix窗口快捷键
+"===================
+"
+" ?     显示键盘映射
+" o     打开文件
+" O     打开文件关闭QuickFix窗口
+" go    预览文件，但焦点留在ack搜索结果上
+" t     在新标签页打开文件
+" T     在新标签页打开但不切换到那个标签页
+" h     分屏打开
+" H     分屏打开，但焦点停留在ack搜索结果上
+" v     竖直分屏打开
+" gv    竖直分屏打开，但焦点停留在ack搜索结果上
+" q     关闭QuickFix窗口
 
 
 "=======================================
