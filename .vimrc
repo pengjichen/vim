@@ -321,7 +321,7 @@ nmap termvs   :bel vertical term<CR>
 
 nmap <CR> o<Esc>
 
- 状态栏
+" 状态栏
 set laststatus=2      " 总是显示状态栏
 highlight StatusLine cterm=bold ctermfg=yellow ctermbg=blue
 " 获取当前路径，将$HOME转化为~
