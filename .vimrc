@@ -18,7 +18,7 @@
 
 " 设置自动缩进长度为4空格
 
-"set shiftwidth=4
+set shiftwidth=4
 
 
 " 启用自动补全
@@ -158,7 +158,7 @@ au InsertLeave *.go,*.sh,*.php,*.js,*.sol,*.txt,*.md write
 
 " 设置自动换行
 
-set wrap
+"set wrap
 
 
 " 开启折叠
@@ -679,6 +679,12 @@ Plugin 'pengjichenorg/vim-snippets'
 
     au InsertEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger     . " <C-R>=g:UltiSnips_Complete()<cr>"
     au InsertEnter * exec "inoremap <silent> " .     g:UltiSnipsJumpBackwardTrigger . " <C-R>=g:UltiSnips_Reverse()<cr>"
+
+
+    " 默认youcomplateme黑名单里有markdown,
+    " 需要移除黑名单才能在markdown里提示候选项
+    " https://stackoverflow.com/questions/24720587/vim-with-youcompleteme-and-markdown
+    let g:ycm_filetype_blacklist = {}
 
 
 "=======================================
