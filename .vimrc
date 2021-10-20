@@ -210,6 +210,9 @@ nmap <c-k> <c-y>
 nmap <c-j> <c-e>
 
 
+" 内置terminal打开与关闭 打开;Enter 关闭esc
+map ;<CR> :bo term<CR>
+tnoremap <ESC> <c-\><c-n>:q!<CR>
 
 " buffer间切换
 
