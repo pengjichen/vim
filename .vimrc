@@ -576,7 +576,7 @@ Plugin 'mileszs/ack.vim'
     nnoremap <Leader>c :Ack!<Space>
 
     " ack 快捷键
-    nmap ag     :Ack
+    nmap ag     :Ack<CR>
 
     "高亮搜索关键词
 
