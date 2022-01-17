@@ -104,7 +104,8 @@ set vb t_vb=
 
 " 定义快捷键的前缀，即<Leader>
 
-let mapleader=";"
+"let mapleader=";"
+let mapleader=","
 
 
 " ==== 系统剪切板复制粘贴 ====
