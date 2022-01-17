@@ -582,9 +582,9 @@ Plugin 'mileszs/ack.vim'
 
     let g:ackhighlight = 1
 
-    "修改快速预览窗口高度为15
+"    "修改快速预览窗口高度为15
 
-    let g:ack_qhandler = "botright copen 15"
+"    let g:ack_qhandler = "botright copen 15" " 可能导致无法从搜索结果跳转"
 
     "在QuickFix窗口使用快捷键以后，自动关闭QuickFix窗口
 
@@ -598,7 +598,7 @@ Plugin 'mileszs/ack.vim'
 
     "部分功能受限，但对于大项目搜索速度较慢时可以尝试开启
 
-    "let g:ack_use_dispatch = 1
+    "let g:ack_use_dispatch = 1 " 可能导致无法搜索"
 
 
 
