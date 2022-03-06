@@ -123,7 +123,6 @@ nmap <Leader>c "+yy
 
 nmap <Leader>v "+p
 
-
 " 开启实时搜索
 
 set incsearch
@@ -166,6 +165,10 @@ au InsertLeave *.go,*.sh,*.php,*.js,*.sol,*.txt,*.md write
 
 set foldmethod=indent
 
+nmap <Leader>m zc
+nmap <Leader>mm zo
+
+
 " 折叠方式, 用语法高亮来定义折叠
 " manual          手工定义折叠
 " indent          更多的缩进表示更高级别的折叠
@@ -174,7 +177,6 @@ set foldmethod=indent
 " diff            对没有更改的文本进行折叠
 " marker          对文中的标志折叠
 
-set fdm=syntax
 
 
 " 设置折叠级别 用于取消打开就折叠
@@ -501,7 +503,7 @@ Plugin 'majutsushi/tagbar'
 Plugin 'nathanaelkane/vim-indent-guides'
 
     let g:indent_guides_enable_on_vim_startup = 1
-    let g:indent_guides_start_level=2
+    let g:indent_guides_start_level=3
     let g:indent_guides_guide_size=1
     let g:indent_guides_auto_colors = 1
 
@@ -552,7 +554,6 @@ Plugin 'wincent/command-t'
 
 Plugin 'easymotion/vim-easymotion'
 
-
 "===================
 " ack全局搜索插件: mileszs/ack.vim
 " 需要ag工具 安装如下:
@@ -588,7 +589,7 @@ Plugin 'mileszs/ack.vim'
 
     "在QuickFix窗口使用快捷键以后，自动关闭QuickFix窗口
 
-    let g:ack_autoclose = 1
+    let g:ack_autoclose=1
 
     "使用ack的空白搜索，即不添加任何参数时对光标下的单词进行搜索，默认值为1，表示开启，置0以后使用空白搜索将返回错误信息
 
@@ -809,6 +810,24 @@ Plugin 'jszakmeister/markdown2ctags'
         \ 'sort': 0,
     \ }
 
+"===================
+" markdown: preservim/vim-markdown
+"===================
+
+"Plugin 'preservim/vim-markdown'
+
+
+"查看所有配置建议
+":help vim-markdwon
+"[[ "跳转上一个标题
+"]] "跳转下一个标题
+"]c "跳转到当前标题
+"]u "跳转到副标题
+"zr "打开下一级折叠
+"zR "打开所有折叠
+"zm "折叠当前段落
+"zM "折叠所有段落
+":Toc "显示目录
 
 "=======================================
 " 编程语言插件
@@ -1061,6 +1080,10 @@ Plugin 'jayli/vim-easydebugger'
 " 启动界面插件: mhinz/vim-startify
 " 可以显示近期使用的文件
 " mac下无法显示近期使用的问题件的问题尚未解决
+" 如果出现打不开的情况，startify: Can't read viminfo file. Read :help startify-faq-02 在终端下执行：
+" chmod 777 .viminfo
+" vim .viminfo
+" :wq
 "===================
 
 Plugin 'mhinz/vim-startify'
