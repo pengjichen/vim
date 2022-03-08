@@ -327,6 +327,20 @@ nmap termvs   :bel vertical term<CR>
 
 nmap <CR> o<Esc>
 
+
+" run code
+"nmap run :!npx hardhat compile<CR>
+
+" 编译solidity, 然后显示quick窗口
+set makeprg=npx\ hardhat\ compile
+nmap<Leader><Space> :w<CR>:make<CR>
+
+nmap<Leader>cn :cn<CR>
+nmap<Leader>cp :cp<CR>
+nmap<Leader>cw :cw 10<CR>
+
+
+
 " 状态栏
 set laststatus=2      " 总是显示状态栏
 highlight StatusLine cterm=bold ctermfg=yellow ctermbg=blue
@@ -522,6 +536,24 @@ Plugin 'kien/ctrlp.vim'
 
     let g:ctrlp_map = '<c-p>'
     let g:ctrlp_cmd = 'CtrlP'
+
+
+    "Once CtrlP is open:
+    "Press <F5> to purge the cache for the current directory to get new files, remove deleted files and apply new ignore options.
+    "Press <c-f> and <c-b> to cycle between modes.
+    "Press <c-d> to switch to filename only search instead of full path.
+    "Press <c-r> to switch to regexp mode.
+    "Use <c-j>, <c-k> or the arrow keys to navigate the result list.
+    "Use <c-t> or <c-v>, <c-x> to open the selected entry in a new tab or in a new split.
+    "Use <c-n>, <c-p> to select the next/previous string in the prompt's history.
+    "Use <c-y> to create a new file and its parent directories.
+    "Use <c-z> to mark/unmark multiple files and <c-o> to open them.
+    "Run :help ctrlp-mappings or submit ? in CtrlP for more mapping help.
+    "
+    "Submit two or more dots .. to go up the directory tree by one or multiple levels.
+    "End the input string with a colon : followed by a command to execute it on the opening file(s):
+    "Use :25 to jump to line 25.
+    "Use :diffthis when opening multiple files to run :diffthis on the first 4 files.
 
 
 "===================
