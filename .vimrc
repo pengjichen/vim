@@ -356,6 +356,10 @@ set statusline=[%n]\ %f%m%r%h\ \|\ \ pwd:\ %{CurDir()}\ \ \|%=\|\ %l,%c\ %p%%\ \
 "set ruler "在编辑过程中，在右下角显示光标位置的状态行
 
 
+"高亮当前单词
+"gd g* g#都会跳, 用着不方便
+nnoremap <leader>k :<C-u>let @/ = expand('<cword>')<cr>
+
 "===============================================================================
 " 插件配置
 "===============================================================================
@@ -635,7 +639,17 @@ Plugin 'mileszs/ack.vim'
 
     "let g:ack_use_dispatch = 1 " 可能导致无法搜索"
 
-
+    "?    a quick summary of these keys, repeat to close
+    "o    to open (same as Enter)
+    "O    to open and close the quickfix window
+    "go   to preview file, open but maintain focus on ack.vim results
+    "t    to open in new tab
+    "T    to open in new tab without moving to it
+    "h    to open in horizontal split
+    "H    to open in horizontal split, keeping focus on the results
+    "v    to open in vertical split
+    "gv   to open in vertical split, keeping focus on the results
+    "q    to close the quickfix window
 
 "===================
 " QuickFix窗口快捷键
