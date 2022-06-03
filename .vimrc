@@ -153,7 +153,7 @@ set smartcase
 
 " 退出插入模式指定类型的文件自动保存
 
-au InsertLeave *.go,*.sh,*.php,*.js,*.sol,*.txt,*.md write
+au InsertLeave *.*,*.go,*.sh,*.php,*.js,*.sol,*.txt,*.md write
 
 
 " 设置自动换行
@@ -242,15 +242,20 @@ nmap new    :tabnew<CR>
 " 保存快捷键
 " <leader>s, <leader>l, <leader>sa, command s, ctrl s, fs
 
-map <leader>s :w<CR>
-inoremap <leader>s <ESC>:w<CR>
+"map <leader>s :w<CR>
+map <leader>q <ESC>:wa<CR>
+inoremap <leader>q <ESC>:wa<CR>
 
-map <leader>l :w!<CR>
-inoremap <leader>l <ESC>:w!<CR>
+"map <leader>l :w!<CR>
+"inoremap <leader>l <ESC>:w!<CR>
 
-map <leader>sa :w!<CR>
+map <leader>sa <ESC>:w!<CR>
+imap <leader>sa <ESC>:w!<CR>
+nmap <leader>sa <ESC>:w!<CR>
 
-map <D>s :w!<CR>
+map <leader>d <ESC>:w!<CR>
+imap <leader>d <ESC>:w!<CR>
+nmap <leader>d <ESC>:w!<CR>
 
 imap Ctrl-s <ESC>:w!<CR>i
 map Ctrl-s :w!<CR>
@@ -276,7 +281,7 @@ nmap <leader>s <c-w>j
 
 nmap make   :make<CR>
 nmap cw     :cw<CR>
-nmap qu     :cw<CR>
+nmap qu     :ccl<CR>
 
 
 " for run js
@@ -358,7 +363,10 @@ set statusline=[%n]\ %f%m%r%h\ \|\ \ pwd:\ %{CurDir()}\ \ \|%=\|\ %l,%c\ %p%%\ \
 
 "高亮当前单词
 "gd g* g#都会跳, 用着不方便
-nnoremap <leader>k :<C-u>let @/ = expand('<cword>')<cr>
+"nnoremap <leader>k :<C-u>let @/ = expand('<cword>')<cr>
+"<leader>k 给easymotion用来跳转了
+"nnoremap <leader><leader>k :<C-u>let @/ = expand('<cword>')<cr>
+nnoremap <leader>; :<C-u>let @/ = expand('<cword>')<cr>
 
 "===============================================================================
 " 插件配置
@@ -418,6 +426,7 @@ Plugin 'vim-airline/vim-airline-themes'
     " 状态栏主题
 
     let g:airline_theme='simple' "'luna'
+    "let g:airline_theme='molokai' "'luna'
 
     " 启用bufferline
 
@@ -426,6 +435,8 @@ Plugin 'vim-airline/vim-airline-themes'
     let g:airline#extensions#tabline#left_sep = ' '
     let g:airline#extensions#tabline#left_alt_sep = '|'
     let g:airline#extensions#tabline#formatter = 'default'
+    "let g:airline#extensions#tabline#formatter = 'unique_tail' "显示文件全路径, 比较占用显示区域
+    "let g:airline_statusline_ontop = 1 "顶部状态栏
 
 
 
@@ -453,9 +464,10 @@ Plugin 'acarapetis/vim-colors-github'
     " 开启24bit的颜色，开启这个颜色会更漂亮一些
 
     set termguicolors
-    set background=dark
+    set background=light
     set t_Co=256
-    colorscheme monokai
+    "colorscheme monokai
+    colorscheme solarized
     let g:solarized_termcolors=256
 
 
@@ -471,6 +483,7 @@ Plugin 'scrooloose/nerdtree'
 
     nmap tr :NERDTreeToggle<cr>
     nmap <leader>f :NERDTreeFind<cr>
+    nmap <leader>b :Bookmark<cr>
 
 
     " 显示行号
@@ -515,6 +528,33 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'majutsushi/tagbar'
 
     nmap ta :TagbarToggle<CR>
+
+    "https://gist.github.com/shuangjj/ae816cacffce3a27e256de7c21312c50
+    "
+    "vim ~/.ctags
+    "--langdef=Solidity
+    "--langmap=Solidity:.sol
+    "--regex-Solidity=/^contract[ \t]+([a-zA-Z0-9_]+)/\1/c,contract/
+    "--regex-Solidity=/[ \t]*function[ \t]+([a-zA-Z0-9_]+)/\1/f,function/
+    "--regex-Solidity=/[ \t]*event[ \t]+([a-zA-Z0-9_]+)/\1/e,event/
+    "--regex-Solidity=/[ \t]*(struct[ \t]+[a-zA-Z0-9_]+)([ \t]*\{)/\1/v,variable/
+    "--regex-Solidity=/[ \t]*(enum[ \t]+[a-zA-Z0-9_]+)([ \t]*\{)/\1/v,variable/
+    "--regex-Solidity=/[ \t]*mapping[ \t]+\(([a-zA-Z0-9_]+)[ \t]*=>[ \t]*([a-zA-Z0-9_]+)\)[ \t]+([a-zA-Z0-9_]+)/\3 (\1=>\2)/m,mapping/
+    "
+
+
+
+    " for solidity
+    let g:tagbar_type_solidity = {
+    \ 'ctagstype': 'solidity',
+    \ 'kinds' : [
+        \ 'c:contracts',
+        \ 'e:events',
+        \ 'f:functions',
+        \ 'm:mappings',
+        \ 'v:varialbes',
+    \ ]
+\ }
 
 "===================
 " 缩进显示: nathanaelkane/vim-indent-guides
@@ -588,10 +628,24 @@ Plugin 'wincent/command-t'
 " 文件内快速定位插件: easymotion/vim-easymotion
 " 跳到某一个位置: <leader><leader> w, <leader><leader> e
 " 跳到输入的指定字符的某一个位置: <leader><leader> f
+" 搜索跳转: <leader><leader> s
+" 行级跳转: <leader><leader>j和<leader><leader>k
+" 行内跳转: <leader><leader>h和<leader><leader>l 行内跳转(hl)
 "===================
 
 Plugin 'easymotion/vim-easymotion'
 
+
+map <Leader>l <Plug>(easymotion-lineforward)
+map <Leader>j <Plug>(easymotion-j)
+map <Leader>k <Plug>(easymotion-k)
+map <Leader>h <Plug>(easymotion-linebackward)
+
+"map <Leader>l <Plug>(easymotion-lineforward)
+"map <Leader>h <Plug>(easymotion-linebackward)
+
+"map <Leader><leader>l <Plug>(easymotion-bd-jk)
+"nmap <Leader><leader>l <Plug>(easymotion-overwin-line)
 "===================
 " ack全局搜索插件: mileszs/ack.vim
 " 需要ag工具 安装如下:
@@ -623,11 +677,12 @@ Plugin 'mileszs/ack.vim'
 
 "    "修改快速预览窗口高度为15
 
-"    let g:ack_qhandler = "botright copen 15" " 可能导致无法从搜索结果跳转"
+"    let g:ack_qhandler = "botright copen 15" " 可能导致无法从搜索结果跳转",
+"    跳转有专门快捷键, 如h, v, 否则无法跳转
 
     "在QuickFix窗口使用快捷键以后，自动关闭QuickFix窗口
 
-    let g:ack_autoclose=1
+    "let g:ack_autoclose=1
 
     "使用ack的空白搜索，即不添加任何参数时对光标下的单词进行搜索，默认值为1，表示开启，置0以后使用空白搜索将返回错误信息
 
@@ -786,6 +841,8 @@ Plugin 'airblade/vim-gitgutter'
 
 Plugin 'tpope/vim-fugitive'
 
+    "可以用 :Gblame 调用 git blame 来查看每行最后的提交信息：
+
 
 "=======================================
 " markdown插件
@@ -819,7 +876,8 @@ Plugin 'tpope/vim-fugitive'
 "===================
 
 Plugin 'iamcco/mathjax-support-for-mkdp'
-Plugin 'iamcco/markdown-preview.vim'
+"Plugin 'iamcco/markdown-preview.vim'
+Plugin 'iamcco/markdown-preview.nvim'
 
 
     map exp   :MarkdownPreview<CR>
@@ -1276,7 +1334,7 @@ filetype plugin indent on    " required
 
     " 如果不使用 GVim ，可以不用配置下面的配置
     if has('gui_running')
-        colorscheme one
+        "colorscheme one
 
         " 设置启动时窗口的大小
 
