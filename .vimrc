@@ -466,8 +466,8 @@ Plugin 'acarapetis/vim-colors-github'
     set termguicolors
     set background=light
     set t_Co=256
-    "colorscheme monokai
-    colorscheme solarized
+    colorscheme monokai
+    "colorscheme solarized
     let g:solarized_termcolors=256
 
 
@@ -555,6 +555,29 @@ Plugin 'majutsushi/tagbar'
         \ 'v:varialbes',
     \ ]
 \ }
+
+
+
+"===================
+" 表格格式化: nathanaelkane/vim-indent-guides
+"===================
+
+Plugin 'dhruvasagar/vim-table-mode'
+
+function! s:isAtStartOfLine(mapping)
+  let text_before_cursor = getline('.')[0 : col('.')-1]
+  let mapping_pattern = '\V' . escape(a:mapping, '\')
+  let comment_pattern = '\V' . escape(substitute(&l:commentstring, '%s.*$', '', ''), '\')
+  return (text_before_cursor =~? '^' . ('\v(' . comment_pattern . '\v)?') . '\s*\v' . mapping_pattern . '\v$')
+endfunction
+
+inoreabbrev <expr> <bar><bar>
+          \ <SID>isAtStartOfLine('\|\|') ?
+          \ '<c-o>:TableModeEnable<cr><bar><space><bar><left><left>' : '<bar><bar>'
+inoreabbrev <expr> __
+          \ <SID>isAtStartOfLine('__') ?
+          \ '<c-o>:silent! TableModeDisable<cr>' : '__'
+
 
 "===================
 " 缩进显示: nathanaelkane/vim-indent-guides
@@ -705,6 +728,17 @@ Plugin 'mileszs/ack.vim'
     "v    to open in vertical split
     "gv   to open in vertical split, keeping focus on the results
     "q    to close the quickfix window
+
+
+"===================
+" 浮动terminal插件 https://github.com/voldikss/vim-floaterm
+"===================
+
+Plugin 'voldikss/vim-floaterm'
+
+
+
+
 
 "===================
 " QuickFix窗口快捷键
