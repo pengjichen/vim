@@ -108,6 +108,38 @@ set vb t_vb=
 let mapleader=","
 
 
+" 文本宽度 80列
+" 超出宽度, 有一条竖线显示
+
+au FileType c,cpp,python,vim,markdown,*.md set textwidth=80
+
+set colorcolumn=81
+
+" 折行
+
+au FileType text,markdown,html,xml set wrap
+
+" 折行时，以单词为界，以免切断单词
+set linebreak
+
+" 折行后的后续行，使用与第一行相同的缩进
+
+set breakindent
+
+" 保存时删除行尾空格
+
+" 这个函数通过替换命令删除行尾空格
+func! DeleteTrailingWS()
+    exec "normal mz"
+    %s/\s\+$//ge
+    exec "normal `z"
+endfunc
+
+" 保存时自动删除行尾空格
+au BufWrite * :call DeleteTrailingWS()
+
+
+
 " ==== 系统剪切板复制粘贴 ====
 " v 模式下复制内容到系统剪切板
 
@@ -177,7 +209,20 @@ nmap <Leader>mm zo
 " diff            对没有更改的文本进行折叠
 " marker          对文中的标志折叠
 
+"在可折叠处（大括号中间）：
+"1    zc        折叠
+"2    zC        对所在范围内所有嵌套的折叠点进行折叠
+"3    zo        展开折叠
+"4    zO        对所在范围内所有嵌套的折叠点展开
+"5    [z        到当前打开的折叠的开始处。
+"6    ]z        到当前打开的折叠的末尾处。
+"7    zj        向下移动。到达下一个折叠的开始处。关闭的折叠也被计入。
+"8    zk        向上移动到前一折叠的结束处。关闭的折叠也被计入。
 
+"9   zm         关闭所有折叠
+"10  zM         关闭所有嵌套折叠
+"11  zr         展开所有折叠
+"12  在R        打开所有折叠及其嵌套折叠
 
 " 设置折叠级别 用于取消打开就折叠
 
